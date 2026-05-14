@@ -20,8 +20,8 @@ The matching engine must handle failures gracefully with **zero data loss** and 
 ```mermaid
 flowchart TB
     subgraph Primary["Primary Region"]
-        PG1[(("PG Primary")]
-        PG2[(("PG Standby")]
+        PG1[("PG Primary")]
+        PG2[("PG Standby")]
         NATS1["NATS Node 1"]
         NATS2["NATS Node 2"]
         NATS3["NATS Node 3"]
@@ -30,7 +30,7 @@ flowchart TB
     end
 
     subgraph Secondary["DR Region"]
-        PG3[(("PG Async Standby")]
+        PG3[("PG Async Standby")]
         NATS4["NATS Node 4"]
         NATS5["NATS Node 5"]
         ME3["Engine DR Standby"]

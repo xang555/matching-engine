@@ -40,8 +40,8 @@ flowchart TB
     end
 
     subgraph Persistence["Persistence Layer"]
-        PG[(("PostgreSQL"))]
-        TSDB[(("TimescaleDB"))]
+        PG[("PostgreSQL")]
+        TSDB[("TimescaleDB")]
         Redis[("Redis<br/>Sessions/Cache")]
     end
 
