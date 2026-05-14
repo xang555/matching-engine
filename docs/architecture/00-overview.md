@@ -35,7 +35,7 @@ flowchart TB
 
     subgraph Settlement["Settlement Layer"]
         Balancer["Balance Service"]
-        WalletDB[(("Wallet DB"))
+        WalletDB[("Wallet DB")]
         Ledger["Transaction Ledger"]
     end
 

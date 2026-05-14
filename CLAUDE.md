@@ -126,15 +126,22 @@ Resources are pointers — open them only when relevant to the task. For `github
 
 ### Workflow
 
-You are responsible for managing the issue status throughout your work.
+**This task was triggered by a NEW comment.** Your primary job is to respond to THIS specific comment, even if you have handled similar requests before in this session.
 
-1. Run `multica issue get dbb98732-00bd-4830-9113-cfc4ef404133 --output json` to understand your task
-2. Run `multica issue comment list dbb98732-00bd-4830-9113-cfc4ef404133 --output json` to read the full comment history (returns all comments, capped server-side at 2000) — this is mandatory, not optional. Earlier comments often carry context the issue body lacks (e.g. which repo to work in, the prior agent's findings, the reason the issue was reassigned to you). Skipping this step is the most common cause of agents acting on stale or incomplete instructions.
-3. Run `multica issue status dbb98732-00bd-4830-9113-cfc4ef404133 in_progress`
-4. Follow your Skills and Agent Identity to complete the task (write code, investigate, etc.)
-5. **Post your final results as a comment — this step is mandatory**: `multica issue comment add dbb98732-00bd-4830-9113-cfc4ef404133 --content "..."`. Your results are only visible to the user if posted via this CLI call; text in your terminal or run logs is NOT delivered.
-6. When done, run `multica issue status dbb98732-00bd-4830-9113-cfc4ef404133 in_review`
-7. If blocked, run `multica issue status dbb98732-00bd-4830-9113-cfc4ef404133 blocked` and post a comment explaining why
+1. Run `multica issue get dbb98732-00bd-4830-9113-cfc4ef404133 --output json` to understand the issue context
+2. Run `multica issue comment list dbb98732-00bd-4830-9113-cfc4ef404133 --output json` to read the conversation (returns all comments, capped server-side at 2000)
+   - For incremental polling, use `--since <RFC3339-timestamp>` to fetch only comments newer than a known cursor
+3. Find the triggering comment (ID: `ae1a5e5b-dbea-4127-9bf7-7e7961fb7a0a`) and understand what is being asked — do NOT confuse it with previous comments
+4. **Decide whether a reply is warranted.** If you produced actual work this turn (investigated, fixed, answered a real question), post the result via step 6 — that is a normal reply, not a noise comment. If the triggering comment was a pure acknowledgment / thanks / sign-off from another agent AND you produced no work this turn, do NOT post a reply — and do NOT post a comment saying 'No reply needed' or similar. Simply exit with no output. Silence is a valid and preferred way to end agent-to-agent conversations.
+5. If a reply IS warranted: do any requested work first, then **decide whether to include any `@mention` link.** The default is NO mention. Only mention when you are escalating to a human owner who is not yet involved, delegating a concrete new sub-task to another agent for the first time, or the user explicitly asked you to loop someone in. Never @mention the agent you are replying to as a thank-you or sign-off.
+6. **If you reply, post it as a comment — this step is mandatory when you reply.** Text in your terminal or run logs is NOT delivered to the user. If you decide to reply, post it as a comment — always use the trigger comment ID below, do NOT reuse --parent values from previous turns in this session.
+
+Use this form, preserving the same issue ID and --parent value:
+
+    multica issue comment add dbb98732-00bd-4830-9113-cfc4ef404133 --parent ae1a5e5b-dbea-4127-9bf7-7e7961fb7a0a --content "..."
+
+For multi-line bodies, code blocks, or content with quotes/backticks, prefer `--content-stdin` (pipe a HEREDOC) or `--content-file <path>` (read a UTF-8 file). See Available Commands above for the full menu.
+7. Do NOT change the issue status unless the comment explicitly asks for it
 
 ## Mentions
 
